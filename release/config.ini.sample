@@ -202,19 +202,19 @@ config.reqBodyOnlyUtf8 = true
 smtpIpHeaders=X-Originating-IP:;X-Barracuda-Apparent-Source-IP:
 
 # Semicolon ';' seperated list of directories to load parsers from
-parsersDir=MOLOCH_INSTALL_DIR/parsers
+parsersDir=MOLOCH_INSTALL_DIR/parsers; MOLOCH_INSTALL_DIR/parsers/python
 
 # Semicolon ';' seperated list of directories to load plugins from
 pluginsDir=MOLOCH_INSTALL_DIR/plugins
 
 # Semicolon ';' seperated list of plugins to load and the order to load in
-# plugins=tagger.so; netflow.so
+# plugins=tagger.so; netflow.so; python.parsers.so 
 
 # Plugins to load as root, usually just readers
 #rootPlugins=reader-pfring; reader-daq.so
 
 # Semicolon ';' seperated list of viewer plugins to load and the order to load in
-# viewerPlugins=wise.js
+# viewerPlugins=wise.js; python.parsers.js
 
 # NetFlowPlugin
 # Input device id, 0 by default
@@ -409,6 +409,9 @@ authorization=type:string
 #shortname2=url:http://viewer2.host.domain:8123;passwordSecret:password4moloch;name:Testing Cluster
 
 
+[parsers-python]
+# Semicolon ';' seperated list of parsers to load and the order to load in
+parsers=*
 
 # WARNING: This is an ini file with sections, most likely you don't want to put a setting here.
 #          New settings usually go near the top in the [default] section, or in [nodename] sections.

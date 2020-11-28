@@ -14,6 +14,7 @@ AC_CONFIG_FILES([
   capture/plugins/pfring/Makefile
   capture/plugins/snf/Makefile
   capture/plugins/lua/Makefile
+  capture/plugins/python/Makefile
   capture/parsers/Makefile
   db/Makefile
   tests/plugins/Makefile

@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+
+  moloch: &moloch
+    build: ./moloch
+    image: moloch:latest
+    working_dir: /data/moloch/
+    entrypoint: /entrypoint.sh    
+    volumes: 
+      - "./entrypoint.sh:/entrypoint.sh"
+      - "./raw:/data/moloch/raw"
+      - "./logs:/data/moloch/logs"
+      - "./..:/data/moloch/parsers/python"
+    depends_on: 
+      - elasticsearch
+
+  init:
+    <<: *moloch
+    command: init
+
+  viewer:
+    <<: *moloch
+    command: viewer
+    ports:
+      - "8005:8005"
+
+  elasticsearch:
+    image: elasticsearch:6.8.5
+    environment: 
+      - 'discovery.type=single-node' 
+    ports:
+    - "9200:9200"

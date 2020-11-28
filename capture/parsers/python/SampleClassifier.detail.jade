@@ -1,0 +1,8 @@
+
+if (session.protocol.includes('sample'))
+  div.sessionDetailMeta.bold Sample
+  dl.sessionDetailMeta  
+    +arrayList(session.sample, "hostname", "Hostname", 'sample.hostname')
+    +arrayList(session.sample, "optcodes", "Opt Codes", 'sample.optcodes')
+  
+    +pythonDecodeButton('SampleClassifier', 'SampleTcpClassifier', 'Python Decode')

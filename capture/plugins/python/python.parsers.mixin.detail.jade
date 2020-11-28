@@ -1,0 +1,50 @@
+mixin decodeButton(name, title)
+  - key = `ITEM-${name.toUpperCase()}`
+  button(onclick=`(function(el){
+
+    //get vue SessionDetails component
+    session = el.closest('.session-detail').__vue__.$parent;
+
+    //set decoding parameters
+    decodings = JSON.parse(localStorage['moloch-decodings']);
+    decodings["${key}"] = {};
+    localStorage['moloch-decodings'] = JSON.stringify(decodings);
+    session.setBrowserParams();
+
+    //update packets
+    session.getPackets();
+
+    //reset decoding parameters
+    delete decodings["${key}"];
+    localStorage['moloch-decodings'] = JSON.stringify(decodings);
+    setTimeout(() => session.setBrowserParams());
+
+  })(this)`) #{title || name}
+
+mixin pythonDecodeButton(module, classifier, title, decoder)
+  - key = `ITEM-PYTHON`
+  - var classes = ['btn', 'btn-secondary', 'btn-checkbox', 'btn-sm', 'mr-1', 'mb-1']
+  button(onclick=`(function(el){
+
+    //get vue SessionDetails component
+    session = el.closest('.session-detail').__vue__.$parent;
+
+    //set decoding parameters
+    decodings = JSON.parse(localStorage['moloch-decodings'] || "{}");
+    decodings['${key}'] = {
+      'module':'${module}',
+      'classifier':'${classifier}',
+      'decoder':'${decoder}'
+    };
+    localStorage['moloch-decodings'] = JSON.stringify(decodings);
+    session.setBrowserParams();
+
+    //update packets
+    session.getPackets();
+
+    //reset decoding parameters
+    delete decodings['${key}'];
+    localStorage['moloch-decodings'] = JSON.stringify(decodings);
+    setTimeout(() => session.setBrowserParams());
+
+  })(this)`, class=classes) #{title}

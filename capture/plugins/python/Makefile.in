@@ -1,0 +1,26 @@
+INCLUDE_OTHER = -I../.. -I../../thirdparty \
+                @GLIB2_CFLAGS@
+
+install_sh = @install_sh@
+mkdir_p = @mkdir_p@
+INSTALL = @INSTALL@
+PLUGINDIR = @prefix@/plugins
+PARSERDIR = @prefix@/parsers
+PY_CFLAGS = -Werror -Wno-unused-variable -Wno-unused-parameter
+SRCS=$(wildcard ./capture/*.c)
+
+./python.parsers.so : $(SRCS) ../../moloch.h ../../hash.h ../../dll.h
+	$(CC) -pthread @SHARED_FLAGS@ -o $@ @CFLAGS@ -Wall -Wextra -D_GNU_SOURCE -fPIC $(INCLUDE_OTHER) $(PY_CFLAGS) $(SRCS)
+
+install:
+	$(INSTALL) ./python.parsers.* $(PLUGINDIR)
+	@mkdir -p "$(PLUGINDIR)/python/viewer"
+	$(INSTALL) ./viewer/* $(PLUGINDIR)/python/viewer
+	
+	cp -r ../../parsers/python $(PARSERDIR)
+	rm -r $(PARSERDIR)/python/dev
+	 
+all:$(SOS)
+
+distclean realclean clean:
+	rm -f *.o *.so
